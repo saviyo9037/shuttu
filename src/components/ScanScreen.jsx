@@ -63,4 +63,7 @@ export default function ScanScreen({ sfx, vibration, onDone }) {
 
       <TerminalLog speed={critical ? 90 : 220} />
 
-      <footer className="sim-note">Simulation · fictional · nothing is happening to your phone</foote
+      <footer className="sim-note">Simulation · fictional · nothing is happening to your phone</footer>
+    </main>
+  )
+}

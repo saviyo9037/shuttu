@@ -34,6 +34,9 @@ export default function App() {
 
   // Initialize audio and unlock fullscreen + audio on first user tap/interaction
   useEffect(() => {
+    // Attempt fullscreen immediately on mount (works in some webviews/PWAs)
+    enterFullscreen()
+
     if (sound && !sfxRef.current) {
       sfxRef.current = createSfx()
       setSfx(sfxRef.current)
@@ -44,14 +47,11 @@ export default function App() {
       enterFullscreen()
     }
 
-    window.addEventListener('click', unlock, { passive: true })
-    window.addEventListener('touchstart', unlock, { passive: true })
-    window.addEventListener('keydown', unlock, { passive: true })
+    const events = ['click', 'touchstart', 'touchend', 'pointerdown', 'mousedown', 'keydown']
+    events.forEach((ev) => window.addEventListener(ev, unlock, { passive: true }))
 
     return () => {
-      window.removeEventListener('click', unlock)
-      window.removeEventListener('touchstart', unlock)
-      window.removeEventListener('keydown', unlock)
+      events.forEach((ev) => window.removeEventListener(ev, unlock))
     }
   }, [sound])
 
